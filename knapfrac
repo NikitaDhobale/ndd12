@@ -1,0 +1,41 @@
+class Item:
+    def __init__(self, weight, value):
+        self.weight = weight
+        self.value = value
+        self.value_per_weight = value / weight
+
+def fractional_knapsack(items, capacity):
+    items.sort(key=lambda x: x.value_per_weight, reverse=True)
+    total_value = 0
+    knapsack = []
+
+    for item in items:
+        if capacity >= item.weight:
+            knapsack.append(item)
+            total_value += item.value
+            capacity -= item.weight
+        else:
+            fraction = capacity / item.weight
+            knapsack.append(Item(item.weight * fraction, item.value * fraction))
+            total_value += item.value * fraction
+            break
+
+    return knapsack, total_value
+
+if __name__ == '__main__':
+    num_items = int(input("Enter the number of items: "))
+    items = []
+
+    for i in range(num_items):
+        weight, value = map(int, input(f"Enter weight and value for item {i + 1} (separated by a space): ").split())
+        items.append(Item(weight, value))
+
+    knapsack_capacity = int(input("Enter the knapsack capacity: "))
+
+    selected_items, total_value = fractional_knapsack(items, knapsack_capacity)
+
+    print("Selected items in the knapsack:")
+    for item in selected_items:
+        print(f"Weight: {item.weight}, Value: {item.value}")
+
+    print(f"Total value in the knapsack: {total_value}")
