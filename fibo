@@ -1,0 +1,28 @@
+#non recursive
+
+n=int(input("Enter the number of terms: "))
+t1=0 
+t2=1
+print("fibonacci series")
+print("0 1 ",end=" ")
+for i in range(2,n):
+  next_term=t1+t2
+  t1=t2
+  t2=next_term
+  print(next_term ,end=" ")  
+
+#recursive
+
+def fibo(n):
+  if n<=1:
+    return n 
+  else:
+    return( fibo(n-1) + fibo(n-2))
+
+num_terms=int(input("Enter the number of terms: "))
+if num_terms<=0:
+  print("Please enter a positive number")
+else:
+  print("fibonacci series")
+  for i in range(num_terms):
+    print(fibo(i) ,end=" ")  
