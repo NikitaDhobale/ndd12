@@ -1,0 +1,43 @@
+# Returns the maximum profit that can be stored by the bag
+def knapSack(capacity, wt, profit, n):
+    K = [[0 for x in range(capacity + 1)] for x in range(n + 1)]
+    items_selected = [[False for x in range(capacity + 1)] for x in range(n + 1)]
+
+    for i in range(n + 1):  # i = item
+        for w in range(capacity + 1):
+            if i == 0 or w == 0:
+                K[i][w] = 0
+            elif wt[i - 1] <= w:
+                K[i][w] = max(profit[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w])
+                items_selected[i][w] = True
+            else:
+                K[i][w] = K[i - 1][w]
+                items_selected[i][w] = False
+
+    # Find selected items
+    selected_items = []
+    i, w = n, capacity
+    while i > 0 and w > 0:
+        if items_selected[i][w]:
+            selected_items.append(i)
+            w -= wt[i - 1]
+        i -= 1
+
+    selected_items.reverse()
+
+    return K[n][capacity], selected_items
+
+# Main
+n = int(input("Enter the number of items: "))
+profit = []
+wt = []
+
+for i in range(n):
+    p, w = map(int, input(f"Enter profit and weight for item {i + 1}: ").split())
+    profit.append(p)
+    wt.append(w)
+
+capacity = int(input("Enter the capacity of the knapsack: "))
+result, selected_items = knapSack(capacity, wt, profit, n)
+print("Maximum profit:", result)
+print("Selected items:", selected_items)
