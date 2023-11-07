@@ -1,3 +1,50 @@
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib as plt
+
+data=pd.read_csv("uber.csv")
+
+data
+
+data.head()
+
+data.info()
+
+data.columns
+
+data=data.drop(['Unnamed: 0'], axis=1)
+
+data=data.drop(['key'], axis=1)
+
+data.head()
+
+data.shape
+
+data.dtypes
+
+data.isnull().sum()
+
+data['dropoff_longitude'].fillna(value=data['dropoff_longitude'].mean(), inplace=True)
+data['dropoff_latitude'].fillna(value=data['dropoff_latitude'].median(), inplace=True)
+
+data.isnull().sum()
+
+data.dtypes
+
+data.pickup_datetime=pd.to_datetime(data.pickup_datetime, errors='coerce')
+
+data.dtypes
+
+data= data.assign(hour = data.pickup_datetime.dt.hour,
+             day= data.pickup_datetime.dt.day,
+             month = data.pickup_datetime.dt.month,
+             year = data.pickup_datetime.dt.year,
+             dayofweek = data.pickup_datetime.dt.dayofweek)
+
+data.head()
+
 data=data.drop(['pickup_datetime'], axis=1)
 
 data.head()
